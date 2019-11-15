@@ -1,30 +1,38 @@
 import React, { Component } from 'react';
-import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { reset, themes, AppBar, Toolbar, Window, WindowContent, Button, WindowHeader, Fieldset, NumberField, TextField } from "react95";
+import { Button, Input, Icon, Card } from 'semantic-ui-react';
 
 const Group = props => (
-  <div className="group-holder">
-    <Window>
-      <WindowContent>
-        <Fieldset label={props.groupName}>
-          {props.studentNames.map(name => <p>{name}</p>)}
-        </Fieldset>
-      </WindowContent>
-    </Window>
+  <div className='group-holder'>
+    <Card>
+      <Card.Content header={props.groupName} />
+      <Card.Content description={props.studentNames.map(name => <p>{name}</p>)} />
+    </Card>
   </div>
 );
 
 const Timer = (props) => (
-  <div className="group-holder">
-    <Window>
-      <WindowContent>
-        <Fieldset label='Timer'>
-          <input type="number" minutes={props.minutes} onChange={props.handleTimerInputChange} required />
-          <h1 style={{ fontSize: 100 }}>{props.minutes}:{props.seconds}</h1>
-          <button onClick={props.startCountDown}>Start</button>
-        </Fieldset>
-      </WindowContent>
-    </Window>
+  <div className='timer-holder'>
+    {props.timerInput ? (
+      <input placeholder="0m" onChange={props.inputChangeTimerTime} value={props.initialInput} id="incoming-time" type="text" />
+    ) : (
+      <h1 onClick={props.handleTimerCountClick} style={{ fontSize: 100 }}>{props.minutes}:{props.seconds}</h1>
+    )}
+    {/* <input type='number' minutes={props.minutes} onChange={props.handleTimerInputChange} required /> */}
+    
+    {/* <button >Start</button> */}
+    <Button fluid color={props.buttonColor} onClick={props.handleTimerButton}>
+      {props.timerButton}
+    </Button>
+  </div>
+);
+
+const SortBuddy = (props) => (
+  <div className='sortbuddy-holder'>
+    <Input 
+      icon={<Icon name='refresh' inverted circular link onClick={props.handleMakeGroupsButton} />}
+      onChange={props.handleNumberChange}
+      value={props.numInGroups}
+      placeholder='Number in each group' />
   </div>
 );
 
@@ -33,48 +41,54 @@ class App extends Component {
   state = {
     numInGroups: 2,
     groupNames: [
-      "🧠🦁 Brainy Lions",
-      "🕶🐸 Cool Frogs",
-      "☄️🐈 Comet Cats",
-      "⛸🌝 Ice Skating Moons",
-      "🚀🦕 Rocket Dinos",
-      "🦞🐝 Lobster Bees",
-      "🌹🍄 Rose Mushrooms",
-      "🍊🎉 Orange Partiers",
-      "🌅💎 Sunrise Gems",
-      "🏕🐲 Camping Dragons",
-      "🍌🐛 Banana Bugs",
-      "🥨📟 Pretzel Pagers"
+      '🧠🦁',
+      '🕶🐸',
+      '☄️🐈',
+      '⛸🌝',
+      '🚀🦕',
+      '🦞🐝',
+      '🌹🍄',
+      '🍊🎉',
+      '🌅💎',
+      '🏕🐲',
+      '🍌🐛',
+      '🥨📟'
     ],
     studentNames: [
-      "Alda",
-      "Allison",
-      "Asante",
-      "Asha",
-      "Cindy",
-      "Courtney",
-      "Keiron",
-      "Emery",
-      "Haley",
-      "Charlie",
-      "Ji Hu",
-      "Ji Li",
-      "Jonathan",
-      "Khadijah",
-      "Mel",
-      "Michele",
-      "Nada",
-      "Nathaniel",
-      "Nile",
-      "Ruthie",
-      "Tae yun"
+      'Alda',
+      'Allison',
+      'Asante',
+      'Asha',
+      'Cindy',
+      'Courtney',
+      'Keiron',
+      'Emery',
+      'Haley',
+      'Charlie',
+      'Ji Hu',
+      'Ji Li',
+      'Jonathan',
+      'Khadijah',
+      'Mel',
+      'Michele',
+      'Nada',
+      'Nathaniel',
+      'Nile',
+      'Ruthie',
+      'Tae yun'
     ],
     process: [],
-    minutes: '',
-    seconds: '00'
+    minutes: '10',
+    seconds: '00',
+    initialMin: '11',
+    initialSec: '00',
+    initialInput: '',
+    timerButton: 'Start timer',
+    buttonColor: 'green',
+    timerInput: false
   }
 
-  secondsRemaining; 
+  secondsRemaining;
   intervalHandle;
 
   tick = () => {
@@ -86,12 +100,12 @@ class App extends Component {
     })
     if (sec < 10) {
       this.setState({
-        seconds: "0" + this.state.seconds,
+        seconds: '0' + this.state.seconds,
       })
     }
     if (min < 10) {
       this.setState({
-        value: "0" + min,
+        value: '0' + min,
       })
     }
     if (min === 0 & sec === 0) {
@@ -100,97 +114,118 @@ class App extends Component {
     this.secondsRemaining--;
   }
 
-  startCountDown = () => {
-    this.intervalHandle = setInterval(this.tick, 1000);
-    let time = this.state.minutes;
-    this.secondsRemaining = time * 60;
+  handleTimerButton = () => {
+    if(this.state.timerButton === 'Start timer') {
+      this.handleStartTimer();
+      this.setState({ timerButton: 'Stop and reset timer', buttonColor: 'red', timerInput: false });
+    } else {
+      this.handleStopTimer();
+      this.setState({ timerButton: 'Start timer', buttonColor: 'green' });
+    }
   }
+
+  handleStopTimer = () => {
+    clearInterval(this.intervalHandle);
+    this.setState({ minutes: this.state.initialMin, seconds: this.state.initialSec })
+  }
+
+  handleStartTimer = () => {
+    this.intervalHandle = setInterval(this.tick, 1000);
+    let time = this.state.initialInput;
+    this.secondsRemaining = time * 60;
+    this.setState({ initialMin: time })
+  }
+
+
   handleTimerInputChange = e => {
     this.setState({ minutes: e.target.value });
+  }
+
+  shuffle = (array) => {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (0 !== currentIndex) {
+
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
+
+  handleNumberChange = (e) => {
+    let newVal = e.target.value;
+    this.setState({ numInGroups: newVal });
   };
 
+  handleMakeGroupsButton = () => {
+    let randomArr = this.shuffle(this.state.studentNames);
+    let randomGroupNames = this.shuffle(this.state.groupNames);
 
-shuffle = (array) => {
-  let currentIndex = array.length, temporaryValue, randomIndex;
+    let processArr = [];
+    let i, j, tempArr, chunk = this.state.numInGroups;
 
-  while (0 !== currentIndex) {
-
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}
-
-handleNumberChange = (e) => {
-  if (e < 1) e = 2;
-  this.setState({ numInGroups: e });
-};
-
-handleMakeGroupsButton = () => {
-  let randomArr = this.shuffle(this.state.studentNames);
-  let randomGroupNames = this.shuffle(this.state.groupNames);
-
-  let processArr = [];
-  let i, j, tempArr, chunk = this.state.numInGroups;
-
-  for (i = 0, j = randomArr.length; i < j; i += chunk) {
-    tempArr = randomArr.slice(i, i + chunk);
-    processArr.push(tempArr);
-  }
-
-  processArr.forEach((val, i) => {
-    if (val.length <= this.state.numInGroups / 2) {
-      processArr[processArr.length - 2].push(val);
+    for (i = 0, j = randomArr.length; i < j; i += chunk) {
+      tempArr = randomArr.slice(i, i + chunk);
+      processArr.push(tempArr);
     }
-  });
 
-  console.log(processArr);
+    processArr.forEach((val, i) => {
+      if (val.length <= this.state.numInGroups / 2) {
+        processArr[processArr.length - 2].push(val);
+      }
+    });
 
-  this.setState({ process: processArr, groupNames: randomGroupNames });
-};
+    console.log(processArr);
 
-componentDidMount() {
-}
+    this.setState({ process: processArr, groupNames: randomGroupNames });
+  };
 
-render() {
-  const ResetStyles = createGlobalStyle`${reset}`;
+  handleTimerCountClick = () => {
+    this.setState({ timerInput: true });
+  }
 
-  return (
-    <div className="App">
-      <ResetStyles />
-      <ThemeProvider theme={themes.default}>
-        <div>
-          <div>
-            <AppBar>
-              <Toolbar style={{ justifyContent: 'space-between' }}>
-                <NumberField shadow={false} value={this.state.numInGroups} onChange={this.handleNumberChange} />
-                <span>
-                  <span className='course-code'>Georgia Tech UX/UI Bootcamp</span>
-                  <Button style={{ fontWeight: 'bold' }} onClick={this.handleMakeGroupsButton}>😎 Make groups</Button>
-                </span>
-              </Toolbar>
-            </AppBar>
-            <div className="stage">
-              <Timer 
-                minutes={this.state.minutes} 
-                seconds={this.state.seconds} 
-                handleTimerInputChange={this.handleTimerInputChange} 
-                startCountDown={this.startCountDown} />
-              {this.state.process.map((val, i) => (
-                <Group studentNames={val} groupName={this.state.groupNames[i]} />
-              ))}
-            </div>
-          </div>
+  inputChangeTimerTime = (e) => {
+    let inputTime = e.target.value;
+    this.setState({ initialInput: inputTime });
+  }
+
+  componentDidMount() {
+  }
+
+  render() {
+    return (
+      <div className='app'>
+        <div className='topWrap'>
+          <Timer
+              minutes={this.state.minutes}
+              seconds={this.state.seconds}
+              handleTimerInputChange={this.handleTimerInputChange}
+              handleTimerButton={this.handleTimerButton} 
+              timerButton={this.state.timerButton} 
+              buttonColor={this.state.buttonColor} 
+              timerInput={this.state.timerInput} 
+              handleTimerCountClick={this.handleTimerCountClick} 
+              inputChangeTimerTime={this.inputChangeTimerTime}
+              initialInput={this.state.initialInput} />
+          <div className='myhr'></div>
+          <SortBuddy 
+            handleMakeGroupsButton={this.handleMakeGroupsButton}
+            numInGroups={this.state.numInGroups}
+            handleNumberChange={this.handleNumberChange} />
         </div>
-      </ThemeProvider>
-    </div>
-  )
-}
+        <div className='groupsWrap'>
+          {this.state.process.map((val, i) => (
+            <Group studentNames={val} groupName={this.state.groupNames[i]} />
+          ))}
+        </div>
+      </div>
+    )
+  }
 }
 
 export default App;
