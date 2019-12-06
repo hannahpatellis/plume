@@ -1,0 +1,15 @@
+{
+  "short_name": "Plume",
+  "name": "In-class group sorting and timer application",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#0475FF",
+  "background_color": "#ffffff"
+}

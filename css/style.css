@@ -1,0 +1,74 @@
+div.app {
+  display: grid;
+  grid-template-rows: 300px 1fr;
+  grid-template-columns: 1fr;
+}
+
+/* Timer */
+div.topWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-top: 30px;
+}
+div.topWrap div.myhr {
+  height: 1px;
+  background-color: black;
+  width: 350px;
+}
+input#incoming-time {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #9e9e9e;
+  border-radius: 0;
+  outline: none;
+  font-size: 60px;
+  width: 300px;
+  margin-bottom: 20px;
+  margin-top: 55px;
+  padding: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  line-height: 1.15;
+  overflow: visible;
+  font-family: Lato;
+  font-weight: 700;
+}
+
+/* Groups */
+div.groupsWrap {
+  padding-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+div.group-holder {
+  margin: 10px 10px 10px 10px;
+  width: 130px;
+}
+div.group-holder p {
+  font-weight: 900;
+  font-size: 20px;
+}
+div.header {
+  font-size: 40px;
+  text-align: center;
+}
+div.content {
+  padding-top: 11px!important;
+  padding-bottom: 5px!important;
+  padding-left: 6px!important;
+}
+div.content p {
+  margin-bottom: .3em!important;
+}
+div.content p:last-child {
+  margin-bottom: 0px!important;
+}
+/* div.description p {
+  font-weight: bolder;
+} */

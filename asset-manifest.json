@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.js": "/plume/static/js/main.44a59335.chunk.js",
+    "main.js.map": "/plume/static/js/main.44a59335.chunk.js.map",
+    "runtime-main.js": "/plume/static/js/runtime-main.9a1538bb.js",
+    "runtime-main.js.map": "/plume/static/js/runtime-main.9a1538bb.js.map",
+    "static/css/2.0930ab03.chunk.css": "/plume/static/css/2.0930ab03.chunk.css",
+    "static/js/2.2a9171a5.chunk.js": "/plume/static/js/2.2a9171a5.chunk.js",
+    "static/js/2.2a9171a5.chunk.js.map": "/plume/static/js/2.2a9171a5.chunk.js.map",
+    "index.html": "/plume/index.html",
+    "precache-manifest.d1a6e1dd01e67bf4c4b7f0e33a299a5f.js": "/plume/precache-manifest.d1a6e1dd01e67bf4c4b7f0e33a299a5f.js",
+    "service-worker.js": "/plume/service-worker.js",
+    "static/css/2.0930ab03.chunk.css.map": "/plume/static/css/2.0930ab03.chunk.css.map",
+    "static/js/2.2a9171a5.chunk.js.LICENSE": "/plume/static/js/2.2a9171a5.chunk.js.LICENSE",
+    "static/media/semantic.min.css": "/plume/static/media/outline-icons.ef60a4f6.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9a1538bb.js",
+    "static/css/2.0930ab03.chunk.css",
+    "static/js/2.2a9171a5.chunk.js",
+    "static/js/main.44a59335.chunk.js"
+  ]
+}
