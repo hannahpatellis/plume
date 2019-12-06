@@ -39,7 +39,7 @@ const SortBuddy = (props) => (
 class App extends Component {
 
   state = {
-    numInGroups: 2,
+    numInGroups: 4,
     groupNames: [
       '🧠🦁',
       '🕶🐸',
@@ -52,33 +52,43 @@ class App extends Component {
       '🌅💎',
       '🏕🐲',
       '🍌🐛',
-      '🥨📟'
+      '🥨📟',
+      '🌵🦈',
+      '🌮🥯'
     ],
     studentNames: [
-      'Alda',
-      'Allison',
-      'Asante',
-      'Asha',
-      'Cindy',
-      'Courtney',
-      'Keiron',
-      'Emery',
-      'Haley',
+      'Alex',
+      'Alyssa',
+      'Caleb',
       'Charlie',
-      'Ji Hu',
-      'Ji Li',
-      'Jonathan',
-      'Khadijah',
-      'Mel',
-      'Michele',
-      'Nada',
-      'Nathaniel',
-      'Nile',
-      'Ruthie',
-      'Tae yun'
+      'Chase',
+      'Chris',
+      'Colin',
+      'Dennis',
+      'Di\'Nasia',
+      'Felix',
+      'Jake',
+      'Jason',
+      'Jessica',
+      'John',
+      'Kanchan',
+      'Katherine',
+      'Kayla',
+      'Kristin',
+      'Lavet',
+      'Leon',
+      'Libby',
+      'Meg',
+      'Melanie',
+      'Parisa',
+      'Shelby',
+      'Stirling',
+      'Tara',
+      'Taylor',
+      'Thao'
     ],
     process: [],
-    minutes: '10',
+    minutes: '0',
     seconds: '00',
     initialMin: '11',
     initialSec: '00',
@@ -145,7 +155,6 @@ class App extends Component {
     let currentIndex = array.length, temporaryValue, randomIndex;
 
     while (0 !== currentIndex) {
-
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
 
@@ -163,24 +172,41 @@ class App extends Component {
   };
 
   handleMakeGroupsButton = () => {
-    let randomArr = this.shuffle(this.state.studentNames);
-    let randomGroupNames = this.shuffle(this.state.groupNames);
+    const randomArr = this.shuffle(this.state.studentNames);
+    const randomGroupNames = this.shuffle(this.state.groupNames);
 
+    const numInGroups = parseInt(this.state.numInGroups);
+      
     let processArr = [];
-    let i, j, tempArr, chunk = this.state.numInGroups;
+    let count = 0;
+    let totalRemaining = randomArr.length;
+    let tempArr = [];
+    let remainderArr = [];
 
-    for (i = 0, j = randomArr.length; i < j; i += chunk) {
-      tempArr = randomArr.slice(i, i + chunk);
-      processArr.push(tempArr);
+    for (let i = 0; i < randomArr.length; i++) {
+      if(count < numInGroups) {
+        tempArr.push(randomArr[i]);
+        count++;
+        totalRemaining--;
+      }
+      else if (count === numInGroups) { 
+        processArr.push(tempArr);
+        tempArr = [];
+        tempArr.push(randomArr[i]);
+        count = 1;
+        totalRemaining--;
+      }
+
+      if (totalRemaining < numInGroups-count && !processArr.includes(randomArr[i])) {
+        remainderArr.push(randomArr[i]);
+      }
     }
 
-    processArr.forEach((val, i) => {
-      if (val.length <= this.state.numInGroups / 2) {
-        processArr[processArr.length - 2].push(val);
-      }
-    });
-
-    console.log(processArr);
+    if(remainderArr.length === 1) {
+      processArr[0].push(remainderArr[0]);
+    } else if (remainderArr.length > 1){
+      processArr.push(remainderArr);
+    }
 
     this.setState({ process: processArr, groupNames: randomGroupNames });
   };
