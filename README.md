@@ -38,21 +38,21 @@ The gh-pages deploy script will add, commit, and push the built version of the a
 
 ## The `archive` folder
 
-There is an `/archive` folder which includes a previous (and non-working) version of the app that used [React95](https://github.com/arturbien/React95) as the CSS framework.
+There is an `/archive` folder which includes a previous (and non-working) version of the app that used [React95](https://github.com/arturbien/React95) as the CSS framework. At one point, this version also tried to employ the Bootcamp Spot API.
 
 ### Enjoy! 👩🏻‍🏫
 
---
+---
 
 ### Take a look at some of my other classroom apps!
 
-[VideoRepo](https://github.com/hannahpatellis/videorepo) and [VideoRepo Uploader](https://github.com/hannahpatellis/videorepo_uploader): A MERN stack web app for storing and (minimally) organizing class lecture videos; and an Electron app for quickly adding new lectures to the database
+[VideoRepo](https://github.com/hannahpatellis/videorepo) and [VideoRepo Uploader](https://github.com/hannahpatellis/videorepo_uploader): A MERN stack web app for storing and (minimally) organizing class lecture videos; and an Electron app for quickly adding new lectures to the database.
 
 [HoDO Dashboard](https://github.com/hannahpatellis/hodo_dashboard) and [HoDO Desktop](https://github.com/hannahpatellis/hodo_desktop): A MERN stack web app for keeping track of and administering house points, challenges, and guidelines for the Houses of Design Olympics game for UX/UI bootcamps; and an Electron app for quickly adding new points.
 
 [House Points Dashboard for Coding Bootcamps](https://github.com/hannahpatellis/gthousedash): The original incarnation of the Houses of Design Olympics, made for Full-Stack Flex bootcamps. *(No longer in use.)*
 
---
+---
 
 Developed by Alexandria 'Hannah' Isadora Patellis in 2019
 
