@@ -66,7 +66,6 @@ class App extends Component {
       'Colin',
       'Dennis',
       'Di\'Nasia',
-      'Felix',
       'Jake',
       'Jason',
       'Jessica',
