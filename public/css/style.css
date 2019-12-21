@@ -84,8 +84,13 @@ div.content p:last-child {
 /* Student Picker */
 div.student {
   margin-bottom: 10px;
-  color: white;
 }
 div.student div.checkbox label {
   color: white;
+}
+div.student div.checkbox label:hover {
+  color: rgba(255,255,255,.6);
+}
+div.student .ui.checkbox input:focus~label {
+  color: rgba(255,255,255,.6);
 }

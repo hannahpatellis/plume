@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
-import { Button, Input, Icon, Card, Modal, Checkbox } from 'semantic-ui-react';
 
 import Group from './components/Group';
 import Timer from './components/Timer';
 import GroupField from './components/GroupField';
 import StudentPicker from './components/StudentPicker';
 
-
-
 class App extends Component {
-
   state = {
-    numInGroups: 4,
+    numInGroups: 2,
     groupNames: [
       '🧠🦁',
       '🕶🐸',
@@ -28,7 +24,7 @@ class App extends Component {
       '🌵🦈',
       '🌮🥯'
     ],
-    originalStudentNames: [
+    studentsMaster: [
       {
         name: 'Alex',
         present: true
@@ -142,36 +138,7 @@ class App extends Component {
         present: true
       }
     ],
-    studentNames: [
-      'Alex',
-      'Alyssa',
-      'Caleb',
-      'Charlie',
-      'Chase',
-      'Chris',
-      'Colin',
-      'Dennis',
-      'Di\'Nasia',
-      'Jake',
-      'Jason',
-      'Jessica',
-      'John',
-      'Kanchan',
-      'Katherine',
-      'Kayla',
-      'Kristin',
-      'Lavet',
-      'Leon',
-      'Libby',
-      'Meg',
-      'Melanie',
-      'Parisa',
-      'Shelby',
-      'Stirling',
-      'Tara',
-      'Taylor',
-      'Thao'
-    ],
+    presentStudents: [],
     process: [],
     minutes: '0',
     seconds: '00',
@@ -184,6 +151,7 @@ class App extends Component {
     modalOpen: false
   }
 
+  // Timer
   secondsRemaining;
   intervalHandle;
 
@@ -220,11 +188,6 @@ class App extends Component {
     }
   }
 
-  handleStopTimer = () => {
-    clearInterval(this.intervalHandle);
-    this.setState({ minutes: this.state.initialMin, seconds: this.state.initialSec })
-  }
-
   handleStartTimer = () => {
     this.intervalHandle = setInterval(this.tick, 1000);
     let time = this.state.initialInput;
@@ -232,12 +195,26 @@ class App extends Component {
     this.setState({ initialMin: time })
   }
 
+  handleStopTimer = () => {
+    clearInterval(this.intervalHandle);
+    this.setState({ minutes: this.state.initialMin, seconds: this.state.initialSec })
+  }
 
   handleTimerInputChange = e => {
     this.setState({ minutes: e.target.value });
   }
 
-  shuffle = (array) => {
+  handleTimerCountClick = () => {
+    this.setState({ timerInput: true });
+  }
+
+  inputChangeTimerTime = e => {
+    let inputTime = e.target.value;
+    this.setState({ initialInput: inputTime });
+  }
+
+  // Student array shuffle
+  shuffle = array => {
     let currentIndex = array.length, temporaryValue, randomIndex;
 
     while (0 !== currentIndex) {
@@ -252,13 +229,14 @@ class App extends Component {
     return array;
   }
 
-  handleNumberChange = (e) => {
-    let newVal = e.target.value;
+  // Group generation
+  handleNumberChange = e => {
+    const newVal = e.target.value;
     this.setState({ numInGroups: newVal });
   };
 
   handleMakeGroupsButton = () => {
-    const randomArr = this.shuffle(this.state.studentNames);
+    const randomArr = this.shuffle(this.state.presentStudents);
     const randomGroupNames = this.shuffle(this.state.groupNames);
 
     const numInGroups = parseInt(this.state.numInGroups);
@@ -326,23 +304,28 @@ class App extends Component {
     this.setState({ process: processArr, groupNames: randomGroupNames });
   };
 
-  handleTimerCountClick = () => {
-    this.setState({ timerInput: true });
-  }
-
-  inputChangeTimerTime = (e) => {
-    let inputTime = e.target.value;
-    this.setState({ initialInput: inputTime });
-  }
-
+  // Student picker modal
   modalShow = () => this.setState({ modalOpen: true });
   modalClose = () => this.setState({ modalOpen: false });
   
-  // Used by <StudentPicker>
-  handleCheckboxToggle = (i) => {
-    let newStudentNames = this.state.originalStudentNames;
-    newStudentNames[i].present = !newStudentNames[i].present;
-    this.setState({ originalStudentNames: newStudentNames });
+  syncAvailableStudents = studentsMasterUpdated => {
+    let presentStudentsUpdated = [];
+    studentsMasterUpdated.forEach(student => {
+      if(student.present) {
+        presentStudentsUpdated.push(student.name);
+      }
+    });
+    this.setState({ presentStudents: presentStudentsUpdated, studentsMaster: studentsMasterUpdated });
+  }
+
+  handleCheckboxToggle = i => {
+    let studentsMasterUpdated = this.state.studentsMaster;
+    studentsMasterUpdated[i].present = !studentsMasterUpdated[i].present;
+    this.syncAvailableStudents(studentsMasterUpdated);
+  }
+
+  componentWillMount() {
+    this.syncAvailableStudents(this.state.studentsMaster);
   }
 
   render() {
@@ -354,7 +337,8 @@ class App extends Component {
           modalClose={this.modalClose}
           modalOpen={this.state.modalOpen}
           handleCheckboxToggle={this.handleCheckboxToggle}
-          originalStudentNames={this.state.originalStudentNames} />
+          studentsMaster={this.state.studentsMaster} />
+
         <div className='topWrap'>
           <Timer
               minutes={this.state.minutes}
@@ -374,9 +358,10 @@ class App extends Component {
             handleNumberChange={this.handleNumberChange}
             modalShow={this.modalShow} />
         </div>
+        
         <div className='groupsWrap'>
-          {this.state.process.map((val, i) => (
-            <Group studentNames={val} groupName={this.state.groupNames[i]} />
+          {this.state.process.map((group, i) => (
+            <Group group={group} key={i} groupName={this.state.groupNames[i]} />
           ))}
         </div>
       </div>
