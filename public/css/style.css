@@ -1,6 +1,6 @@
 div.app {
   display: grid;
-  grid-template-rows: 300px 1fr;
+  grid-template-rows: 250px 1fr;
   grid-template-columns: 1fr;
 }
 
@@ -10,7 +10,7 @@ div.topWrap {
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  padding-top: 30px;
+  padding-top: 15px;
 }
 div.topWrap div.myhr {
   height: 1px;
@@ -36,6 +36,14 @@ input#incoming-time {
   overflow: visible;
   font-family: Lato;
   font-weight: 700;
+}
+
+/* Group Field */
+div.sortbuddy-holder button.button {
+  margin-left: 20px;
+}
+div.sortbuddy-holder div.input {
+  width: 100px;
 }
 
 /* Groups */
@@ -72,3 +80,12 @@ div.content p:last-child {
 /* div.description p {
   font-weight: bolder;
 } */
+
+/* Student Picker */
+div.student {
+  margin-bottom: 10px;
+  color: white;
+}
+div.student div.checkbox label {
+  color: white;
+}

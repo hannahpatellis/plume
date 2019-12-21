@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "751cf20653091fcf629b157091e117ef",
+    "revision": "839e4adb71f0f49688fd93a7bd3581a8",
     "url": "/plume/index.html"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/plume/static/js/2.2a9171a5.chunk.js.LICENSE"
   },
   {
-    "revision": "7bebbd7ee25caa00e5cc",
-    "url": "/plume/static/js/main.44a59335.chunk.js"
+    "revision": "a8c493b36d1828fa2f5b",
+    "url": "/plume/static/js/main.33ff1119.chunk.js"
   },
   {
     "revision": "c9e0b21565f9683c1c4e",

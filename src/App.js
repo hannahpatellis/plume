@@ -1,40 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Input, Icon, Card } from 'semantic-ui-react';
+import { Button, Input, Icon, Card, Modal, Checkbox } from 'semantic-ui-react';
 
-const Group = props => (
-  <div className='group-holder'>
-    <Card>
-      <Card.Content header={props.groupName} />
-      <Card.Content description={props.studentNames.map(name => <p>{name}</p>)} />
-    </Card>
-  </div>
-);
+import Group from './components/Group';
+import Timer from './components/Timer';
+import GroupField from './components/GroupField';
+import StudentPicker from './components/StudentPicker';
 
-const Timer = (props) => (
-  <div className='timer-holder'>
-    {props.timerInput ? (
-      <input placeholder="0m" onChange={props.inputChangeTimerTime} value={props.initialInput} id="incoming-time" type="text" />
-    ) : (
-      <h1 onClick={props.handleTimerCountClick} style={{ fontSize: 100 }}>{props.minutes}:{props.seconds}</h1>
-    )}
-    {/* <input type='number' minutes={props.minutes} onChange={props.handleTimerInputChange} required /> */}
-    
-    {/* <button >Start</button> */}
-    <Button fluid color={props.buttonColor} onClick={props.handleTimerButton}>
-      {props.timerButton}
-    </Button>
-  </div>
-);
 
-const SortBuddy = (props) => (
-  <div className='sortbuddy-holder'>
-    <Input 
-      icon={<Icon name='refresh' inverted circular link onClick={props.handleMakeGroupsButton} />}
-      onChange={props.handleNumberChange}
-      value={props.numInGroups}
-      placeholder='Number in each group' />
-  </div>
-);
 
 class App extends Component {
 
@@ -55,6 +27,120 @@ class App extends Component {
       '🥨📟',
       '🌵🦈',
       '🌮🥯'
+    ],
+    originalStudentNames: [
+      {
+        name: 'Alex',
+        present: true
+      },
+      {
+        name: 'Alyssa',
+        present: true
+      },
+      {
+        name: 'Caleb',
+        present: true
+      },
+      {
+        name: 'Charlie',
+        present: true
+      },
+      {
+        name: 'Chase',
+        present: true
+      },
+      {
+        name: 'Chris',
+        present: true
+      },
+      {
+        name: 'Colin',
+        present: true
+      },
+      {
+        name: 'Dennis',
+        present: true
+      },
+      {
+        name: 'Di\'Nasia',
+        present: true
+      },
+      {
+        name: 'Jake',
+        present: true
+      },
+      {
+        name: 'Jason',
+        present: true
+      },
+      {
+        name: 'Jessica',
+        present: true
+      },
+      {
+        name: 'John',
+        present: true
+      },
+      {
+        name: 'Kanchan',
+        present: true
+      },
+      {
+        name: 'Katherine',
+        present: true
+      },
+      {
+        name: 'Kayla',
+        present: true
+      },
+      {
+        name: 'Kristin',
+        present: true
+      },
+      {
+        name: 'Lavet',
+        present: true
+      },
+      {
+        name: 'Leon',
+        present: true
+      },
+      {
+        name: 'Libby',
+        present: true
+      },
+      {
+        name: 'Meg',
+        present: true
+      },
+      {
+        name: 'Melanie',
+        present: true
+      },
+      {
+        name: 'Parisa',
+        present: true
+      },
+      {
+        name: 'Shelby',
+        present: true
+      },
+      {
+        name: 'Stirling',
+        present: true
+      },
+      {
+        name: 'Tara',
+        present: true
+      },
+      {
+        name: 'Taylor',
+        present: true
+      },
+      {
+        name: 'Thao',
+        present: true
+      }
     ],
     studentNames: [
       'Alex',
@@ -94,7 +180,8 @@ class App extends Component {
     initialInput: '',
     timerButton: 'Start timer',
     buttonColor: 'green',
-    timerInput: false
+    timerInput: false,
+    modalOpen: false
   }
 
   secondsRemaining;
@@ -182,12 +269,25 @@ class App extends Component {
     let tempArr = [];
     let remainderArr = [];
 
+    console.log(`randomArr.length is ${randomArr.length}`);
+
     for (let i = 0; i < randomArr.length; i++) {
+      /* If the current count is less than the size of each group
+         push that name into the tempArr array, increase the count,
+         decrease the totalRemaining */ 
+      // -Works-
       if(count < numInGroups) {
         tempArr.push(randomArr[i]);
         count++;
         totalRemaining--;
       }
+      /* If the count is equal to the size of each grop
+         push the tempArr array into the processArr array
+         because the tempArr array is full. Then push the name
+         into the tempArr after clearing it and reset the count 
+         to 1 because 1 name is in the tempArr array. Decrease
+         the totalRemaining */ 
+      // -Works-
       else if (count === numInGroups) { 
         processArr.push(tempArr);
         tempArr = [];
@@ -196,16 +296,32 @@ class App extends Component {
         totalRemaining--;
       }
 
+      // If the total remaining to be sorted is less than the number in groups minus count, and the name isn't already in the process array
+      // push the remaining name into the remainderArr array
+      // -Works-
       if (totalRemaining < numInGroups-count && !processArr.includes(randomArr[i])) {
         remainderArr.push(randomArr[i]);
       }
     }
 
-    if(remainderArr.length === 1) {
-      processArr[0].push(remainderArr[0]);
-    } else if (remainderArr.length > 1){
-      processArr.push(remainderArr);
+    /* If the processArr array doesn't include
+       the last tempArr array (because the last 
+       even array will not trigger the else if
+       (count === numInGroups)) then push
+       the last tempArr into the processArr */
+    // Hack fix
+    if(!processArr.includes(tempArr[0])) {
+      processArr.push(tempArr);
     }
+
+    console.log(`We have remainders`, remainderArr);
+    console.log(`Process array`, processArr);
+
+    // if(remainderArr.length === 1) {
+    //   processArr[0].push(remainderArr[0]);
+    // } else if (remainderArr.length > 1){
+    //   processArr.push(remainderArr);
+    // }
 
     this.setState({ process: processArr, groupNames: randomGroupNames });
   };
@@ -219,12 +335,26 @@ class App extends Component {
     this.setState({ initialInput: inputTime });
   }
 
-  componentDidMount() {
+  modalShow = () => this.setState({ modalOpen: true });
+  modalClose = () => this.setState({ modalOpen: false });
+  
+  // Used by <StudentPicker>
+  handleCheckboxToggle = (i) => {
+    let newStudentNames = this.state.originalStudentNames;
+    newStudentNames[i].present = !newStudentNames[i].present;
+    this.setState({ originalStudentNames: newStudentNames });
   }
 
   render() {
+
     return (
       <div className='app'>
+        <StudentPicker 
+          modalShow={this.modalShow}
+          modalClose={this.modalClose}
+          modalOpen={this.state.modalOpen}
+          handleCheckboxToggle={this.handleCheckboxToggle}
+          originalStudentNames={this.state.originalStudentNames} />
         <div className='topWrap'>
           <Timer
               minutes={this.state.minutes}
@@ -238,10 +368,11 @@ class App extends Component {
               inputChangeTimerTime={this.inputChangeTimerTime}
               initialInput={this.state.initialInput} />
           <div className='myhr'></div>
-          <SortBuddy 
+          <GroupField 
             handleMakeGroupsButton={this.handleMakeGroupsButton}
             numInGroups={this.state.numInGroups}
-            handleNumberChange={this.handleNumberChange} />
+            handleNumberChange={this.handleNumberChange}
+            modalShow={this.modalShow} />
         </div>
         <div className='groupsWrap'>
           {this.state.process.map((val, i) => (
