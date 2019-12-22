@@ -186,6 +186,7 @@ class App extends Component {
        Then remove the last array in the process array
        since it is incomplete and holds the remainders */
     // There has to be a better way to do this
+    // This does dumb stuff like make groups of five instead of one group of 3 when there are supposed to be groups of four. This needs fixing.
     if(remainderArr.length >= 1) {
       remainderArr.forEach((element, i) => {
         processArr[i].push(remainderArr[i]);
