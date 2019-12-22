@@ -6,7 +6,7 @@ const StudentPicker = props => (
     <Modal.Header>Select which students to include</Modal.Header>
     <Modal.Content scrolling>
       {props.studentsMaster.map((student, i) => (
-        <div className='student'>
+        <div key={i} className='student'>
           <Checkbox
             label={student.name}
             onChange={() => props.handleCheckboxToggle(i)}

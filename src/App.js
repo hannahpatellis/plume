@@ -5,6 +5,8 @@ import Timer from './components/Timer';
 import GroupField from './components/GroupField';
 import StudentPicker from './components/StudentPicker';
 
+const roster = require('./students.json');
+
 class App extends Component {
   state = {
     numInGroups: 2,
@@ -24,125 +26,12 @@ class App extends Component {
       '🌵🦈',
       '🌮🥯'
     ],
-    studentsMaster: [
-      {
-        name: 'Alex',
-        present: true
-      },
-      {
-        name: 'Alyssa',
-        present: true
-      },
-      {
-        name: 'Caleb',
-        present: true
-      },
-      {
-        name: 'Charlie',
-        present: true
-      },
-      {
-        name: 'Chase',
-        present: true
-      },
-      {
-        name: 'Chris',
-        present: true
-      },
-      {
-        name: 'Colin',
-        present: true
-      },
-      {
-        name: 'Dennis',
-        present: true
-      },
-      {
-        name: 'Di\'Nasia',
-        present: true
-      },
-      {
-        name: 'Jake',
-        present: true
-      },
-      {
-        name: 'Jason',
-        present: true
-      },
-      {
-        name: 'Jessica',
-        present: true
-      },
-      {
-        name: 'John',
-        present: true
-      },
-      {
-        name: 'Kanchan',
-        present: true
-      },
-      {
-        name: 'Katherine',
-        present: true
-      },
-      {
-        name: 'Kayla',
-        present: true
-      },
-      {
-        name: 'Kristin',
-        present: true
-      },
-      {
-        name: 'Lavet',
-        present: true
-      },
-      {
-        name: 'Leon',
-        present: true
-      },
-      {
-        name: 'Libby',
-        present: true
-      },
-      {
-        name: 'Meg',
-        present: true
-      },
-      {
-        name: 'Melanie',
-        present: true
-      },
-      {
-        name: 'Parisa',
-        present: true
-      },
-      {
-        name: 'Shelby',
-        present: true
-      },
-      {
-        name: 'Stirling',
-        present: true
-      },
-      {
-        name: 'Tara',
-        present: true
-      },
-      {
-        name: 'Taylor',
-        present: true
-      },
-      {
-        name: 'Thao',
-        present: true
-      }
-    ],
+    studentsMaster: [],
     presentStudents: [],
     process: [],
     minutes: '0',
     seconds: '00',
-    initialMin: '11',
+    initialMin: '10',
     initialSec: '00',
     initialInput: '',
     timerButton: 'Start timer',
@@ -247,8 +136,6 @@ class App extends Component {
     let tempArr = [];
     let remainderArr = [];
 
-    console.log(`randomArr.length is ${randomArr.length}`);
-
     for (let i = 0; i < randomArr.length; i++) {
       /* If the current count is less than the size of each group
          push that name into the tempArr array, increase the count,
@@ -292,14 +179,19 @@ class App extends Component {
       processArr.push(tempArr);
     }
 
-    console.log(`We have remainders`, remainderArr);
-    console.log(`Process array`, processArr);
+    /* If there are elements in the remainder array
+       cycle through the remainders and add one to each
+       of the existing process arrays.
 
-    // if(remainderArr.length === 1) {
-    //   processArr[0].push(remainderArr[0]);
-    // } else if (remainderArr.length > 1){
-    //   processArr.push(remainderArr);
-    // }
+       Then remove the last array in the process array
+       since it is incomplete and holds the remainders */
+    // There has to be a better way to do this
+    if(remainderArr.length >= 1) {
+      remainderArr.forEach((element, i) => {
+        processArr[i].push(remainderArr[i]);
+      });
+      processArr.splice(processArr.length-1, 1);
+    }
 
     this.setState({ process: processArr, groupNames: randomGroupNames });
   };
@@ -324,12 +216,19 @@ class App extends Component {
     this.syncAvailableStudents(studentsMasterUpdated);
   }
 
-  componentWillMount() {
-    this.syncAvailableStudents(this.state.studentsMaster);
+  componentDidMount() {
+    let studentsMasterProcess = [];
+    roster.forEach((element, i) => {
+      let processObj = {
+        name: element,
+        present: true
+      };
+      studentsMasterProcess.push(processObj);
+    });
+    this.syncAvailableStudents(studentsMasterProcess);
   }
 
   render() {
-
     return (
       <div className='app'>
         <StudentPicker 

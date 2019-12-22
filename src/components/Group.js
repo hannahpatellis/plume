@@ -5,8 +5,7 @@ const Group = props => (
   <div className='group-holder'>
     <Card>
       <Card.Content header={props.groupName} />
-      {console.log(props.group)}
-      <Card.Content description={props.group.map(name => <p>{name}</p>)} />
+      <Card.Content description={props.group.map((name, i) => <p key={i}>{name}</p>)} />
     </Card>
   </div>
 );
