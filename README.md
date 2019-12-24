@@ -6,7 +6,7 @@ A random group generator and countdown timer
 
 ## Intro
 
-Plume can be used in classrooms to quickly sort students into groups of a specified size. It also includes a countdown timer that allows input in minutes.
+Plume can be used in classrooms to quickly sort students into groups of a specified size. It also includes a countdown timer that allows input in minutes and allows you to exclude absent students from group generation.
 
 It is responsive in design so that it can fit in a small portion of the screen while something like a slideshow is also being displayed.
 
@@ -14,13 +14,15 @@ Plume is a React application and uses [Semantic UI](https://react.semantic-ui.co
 
 ## How to use
 
-Enter the number of students you want per group into the input field and click the gray button. It will generate groups with that number of students. If there are leftover students, it will add them to other groups.
+Enter the number of students you want per group into the input field and click the circular gray button. It will generate groups with that number of students. If there are leftover students, it will add them to other groups.
 
 For example, if you have a class of 29 and you want groups of 2, you'll have one group of 3 and not one group of 1.
 
-To change the timer, click the time and it will turn into an input field. Enter the number of minutes you want to count down from and click the green "Start timer" button.
+To change the timer, click the time and it will turn into an input field. Enter the number of minutes from which you want to count down and click the green "Start timer" button.
 
 Once the timer has started you can click the red "Stop and reset timer" button to stop the countdown and reset back to the last input.
+
+If a student is absent, select the rectangular gray button next to the group size input field. A modal will pop up with a list of every student. Uncheck absent students and select the green "Save" button. Now when you generate groups, that student will not be included. When you refresh the page, all students will be remarked as present. _(Feature added Dec 21)_
 
 ## How to run
 
@@ -30,7 +32,7 @@ Then run `yarn start` to start the React development server.
 
 ## How to setup
 
-For use in your own class you will need to edit [/src/App.js](/src/App.js) to include an array of your students. You also need to have group names for at least half the number of total students.
+For use in your own class you will need to edit [/src/students.json](/src/students.json) to include an array of your students. You also need to have group names for at least half the number of total students in [/src/App.js](/src/App.js).
 
 The application is built to be deployed to GitHub Pages. Make a new repo and copy the application files into the new repo. Change the value of the `"homepage"` property in [/package.json](/package.json) to include your username and the name of your repo. (Don't forget the `/` at the end or static assets may not load.) Then run `yarn deploy` which will run the React build script then the gh-pages deploy script. 
 
@@ -38,7 +40,7 @@ The gh-pages deploy script will add, commit, and push the built version of the a
 
 ## The `archive` folder
 
-There is an `/archive` folder which includes a previous (and non-working) version of the app that used [React95](https://github.com/arturbien/React95) as the CSS framework. At one point, this version also tried to employ the Bootcamp Spot API.
+There is an `/archive` folder which includes a previous (and non-working) version of the app that used [React95](https://github.com/arturbien/React95) as the CSS framework. At one point, this version also tried to employ the Trilogy Bootcamp Spot API.
 
 ### Enjoy! 👩🏻‍🏫
 

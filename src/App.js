@@ -219,7 +219,7 @@ class App extends Component {
 
   componentDidMount() {
     let studentsMasterProcess = [];
-    roster.forEach((element, i) => {
+    roster.forEach(element => {
       let processObj = {
         name: element,
         present: true
@@ -265,7 +265,7 @@ class App extends Component {
           ))}
         </div>
       </div>
-    )
+    );
   }
 }
 
